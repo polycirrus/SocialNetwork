@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using SocialNetwork.BL.Interface.Service;
 
 namespace SocialNetwork.MvcPresentation.Identity
 {
     public class UserStore : IUserStore<IdentityUser, int>, IUserRoleStore<IdentityUser, int>, IUserPasswordStore<IdentityUser, int>
     {
+        private IUserService userService;
+
+        public UserStore()
+        {
+            userService = System.Web.Mvc.DependencyResolver.Current.GetService<IUserService>();
+        }
+
         public Task AddToRoleAsync(IdentityUser user, string roleName)
         {
             throw new NotImplementedException();
@@ -66,7 +75,8 @@ namespace SocialNetwork.MvcPresentation.Identity
 
         public Task SetPasswordHashAsync(IdentityUser user, string passwordHash)
         {
-            throw new NotImplementedException();
+            userService.SetPassword(passwordHash);
+            return Task.FromResult(true);
         }
 
         public Task UpdateAsync(IdentityUser user)

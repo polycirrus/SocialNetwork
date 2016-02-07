@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ninject.Modules;
+using SocialNetwork.BL.Interface.Service;
+using SocialNetwork.BL.Service;
 
 namespace SocialNetwork.DependencyResolver
 {
@@ -11,7 +13,7 @@ namespace SocialNetwork.DependencyResolver
     {
         public override void Load()
         {
-            throw new NotImplementedException();
+            Bind<IUserService>().To<UserService>();
         }
     }
 }

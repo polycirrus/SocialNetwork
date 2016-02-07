@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SocialNetwork.DependencyResolver</RootNamespace>
     <AssemblyName>DependencyResolver</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -50,6 +50,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BL.Interface\BL.Interface.csproj">
+      <Project>{a9ed8220-7646-4839-af97-fe55229029d7}</Project>
+      <Name>BL.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BL\BL.csproj">
+      <Project>{e2bd3236-cee9-4f26-81eb-f903d597b653}</Project>
+      <Name>BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess.EntityFramework\DataAccess.EntityFramework.csproj">
+      <Project>{72934809-296e-45d1-91cf-8cbe67676758}</Project>
+      <Name>DataAccess.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess.Interface\DataAccess.Interface.csproj">
+      <Project>{009c0890-ccf7-41aa-a671-7ce9e1327e43}</Project>
+      <Name>DataAccess.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
