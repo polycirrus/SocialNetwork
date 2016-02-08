@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.BL.Interface.Service
+namespace SocialNetwork.DataAccess.Interface
 {
-    public interface IUserService
+    public interface IUnitOfWorkFactory
     {
-        void SetPassword(string password);
+        IUnitOfWork Create();
     }
 }

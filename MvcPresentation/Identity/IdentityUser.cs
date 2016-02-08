@@ -11,9 +11,7 @@ namespace SocialNetwork.MvcPresentation.Identity
     public class IdentityUser : IUser<int>
     {
         public int Id { get; set; }
-
         public string UserName { get; set; }
-        public string Email { get; set; }
         public string PasswordHash { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<IdentityUser, int> manager)

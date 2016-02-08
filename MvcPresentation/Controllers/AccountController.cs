@@ -152,7 +152,7 @@ namespace SocialNetwork.MvcPresentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+                var user = new IdentityUser { UserName = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -368,7 +368,7 @@ namespace SocialNetwork.MvcPresentation.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+                var user = new IdentityUser { UserName = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

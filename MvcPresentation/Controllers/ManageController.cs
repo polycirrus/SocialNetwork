@@ -289,7 +289,7 @@ namespace SocialNetwork.MvcPresentation.Controllers
             }
             var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId<int>());
             var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
-            ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
+            ViewBag.ShowRemoveButton = /*user.PasswordHash != null || userLogins.Count > 1*/true;
             return View(new ManageLoginsViewModel
             {
                 CurrentLogins = userLogins,
@@ -356,7 +356,7 @@ namespace SocialNetwork.MvcPresentation.Controllers
             var user = UserManager.FindById(User.Identity.GetUserId<int>());
             if (user != null)
             {
-                return user.PasswordHash != null;
+                return /*user.PasswordHash != null*/true;
             }
             return false;
         }
