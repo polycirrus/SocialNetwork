@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using Dal = SocialNetwork.DataAccess.Interface.Entities;
 using SocialNetwork.DataAccess.Interface.Repositories;
 using SocialNetwork.DataAccess.EntityFramework.Mappers;
@@ -30,10 +31,11 @@ namespace SocialNetwork.DataAccess.EntityFramework.Repositories
         {
             var users = context.Set<User>();
 
-            if (users.Any(user => user.Email == entity.Email))
-                Update(entity);
-            else
-                Add(entity);
+            //if (users.Any(user => user.Email == entity.Email))
+            //    Update(entity);
+            //else
+            //    Add(entity);
+            users.AddOrUpdate(user => user.Email);
         }
 
         public void Delete(Dal.User entity)
