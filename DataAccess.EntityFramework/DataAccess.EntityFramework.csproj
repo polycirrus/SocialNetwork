@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
+    <Compile Include="Entities\Country.cs" />
+    <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Mappers\DalEfMappers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +69,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NewFile.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
