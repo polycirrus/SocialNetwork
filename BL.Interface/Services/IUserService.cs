@@ -15,5 +15,7 @@ namespace SocialNetwork.BL.Interface.Services
         User FindById(int id);
         User FindByEmail(string email);
         void Update(User user);
+
+        void Test();
     }
 }

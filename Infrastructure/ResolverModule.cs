@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Ninject.Modules;
 using Ninject.Web.Common;
 using SocialNetwork.BL.Interface.Services;
@@ -21,10 +22,16 @@ namespace SocialNetwork.Infrastructure
         public override void Load()
         {
             Bind<DbContext>().To<Context>().InRequestScope();
-            Bind<IUserRepository>().To<UserRepository>();
             Bind<IUnitOfWorkFactory>().To<UnitOfWorkFactory>();
-            //Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
+
+            Bind<IUserRepository>().To<UserRepository>();
+            Bind<IRoleRepository>().To<RoleRepository>();
+            Bind<ICountryRepository>().To<CountryRepository>();
+            Bind<IMessageRepository>().To<MessageRepository>();
+
             Bind<IUserService>().To<UserService>();
+
+            Bind<IMapper>().ToConstant(AutoMapperConfiguration.Mapper);
         }
     }
 }

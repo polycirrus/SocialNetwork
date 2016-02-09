@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using SocialNetwork.BL.Interface.Services;
 using SocialNetwork.BL.Interface.Entities;
 using SocialNetwork.DataAccess.Interface.Repositories;
 using SocialNetwork.DataAccess.Interface;
-using SocialNetwork.BL.Mappers;
+//using SocialNetwork.BL.Mappers;
 
 namespace SocialNetwork.BL.Services
 {
@@ -24,50 +25,56 @@ namespace SocialNetwork.BL.Services
 
         public void CreateOrUpdate(User user)
         {
-            ExecuteInUow(() =>
-            {
-                userRepository.AddOrUpdate(user.ToDataModel());
-            });
+            throw new NotImplementedException();
+            //ExecuteInUow(() =>
+            //{
+            //    userRepository.AddOrUpdate(user.ToDataModel());
+            //});
         }
 
         public void Create(User user)
         {
-            ExecuteInUow(() =>
-            {
-                userRepository.Add(user.ToDataModel());
-            });
+            throw new NotImplementedException();
+            //ExecuteInUow(() =>
+            //{
+            //    userRepository.Add(user.ToDataModel());
+            //});
         }
 
         public void Delete(User user)
         {
-            ExecuteInUow(() =>
-            {
-                userRepository.Delete(user.ToDataModel());
-            });
+            throw new NotImplementedException();
+            //ExecuteInUow(() =>
+            //{
+            //    userRepository.Delete(user.ToDataModel());
+            //});
         }
 
         public User FindById(int id)
         {
-            return ExecuteInUow(() =>
-            {
-                return userRepository.GetById(id)?.ToBlModel();
-            });
+            throw new NotImplementedException();
+            //return ExecuteInUow(() =>
+            //{
+            //    return userRepository.GetById(id)?.ToBlModel();
+            //});
         }
 
         public User FindByEmail(string email)
         {
-            return ExecuteInUow(() =>
-            {
-                return userRepository.GetByEmail(email)?.ToBlModel();
-            });
+            throw new NotImplementedException();
+            //return ExecuteInUow(() =>
+            //{
+            //    return userRepository.GetByEmail(email)?.ToBlModel();
+            //});
         }
 
         public void Update(User user)
         {
-            ExecuteInUow(() =>
-            {
-                userRepository.Update(user.ToDataModel());
-            });
+            throw new NotImplementedException();
+            //ExecuteInUow(() =>
+            //{
+            //    userRepository.Update(user.ToDataModel());
+            //});
         }
 
         private void ExecuteInUow(Action action)
@@ -90,6 +97,15 @@ namespace SocialNetwork.BL.Services
             }
 
             return result;
+        }
+
+        public void Test()
+        {
+            ExecuteInUow(() =>
+            {
+                foreach (var user in userRepository.All.Where(user => user.Email.StartsWith("abc")))
+                    Debug.WriteLine(user.Id);
+            });
         }
     }
 }

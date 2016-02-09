@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.DataAccess.EntityFramework.Entities
 {
-    public class User
+    public class User : IEntity
     {
         public int Id { get; set; }
 
@@ -19,12 +19,14 @@ namespace SocialNetwork.DataAccess.EntityFramework.Entities
         [Required]
         public virtual ICollection<Role> Roles { get; set; }
 
+        public virtual ICollection<User> Friends { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string Bio { get; set; }
 
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
         public virtual Country Country { get; set; }
 
         public virtual ICollection<Message> MessagesFrom { get; set; }

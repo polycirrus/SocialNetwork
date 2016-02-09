@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.DataAccess.EntityFramework.Entities
 {
-    public class Role
+    public class Role : IEntity
     {
         public int Id { get; set; }
 

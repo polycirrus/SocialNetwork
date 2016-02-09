@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.DataAccess.EntityFramework.Entities
 {
-    public class Country
+    public class Country : IEntity
     {
         public int Id { get; set; }
 

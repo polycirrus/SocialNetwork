@@ -9,7 +9,17 @@ namespace SocialNetwork.DataAccess.Interface.Repositories
 {
     public interface IUserRepository : IRepository<User>
     {
-        void AddOrUpdate(User entity);
-        User GetByEmail(string email);
+    }
+
+    public interface IRoleRepository : IRepository<Role>
+    {
+    }
+
+    public interface ICountryRepository : IRepository<Country>
+    {
+    }
+
+    public interface IMessageRepository : IRepository<Message>
+    {
     }
 }

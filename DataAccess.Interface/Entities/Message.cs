@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Navigationless = SocialNetwork.DataAccess.Interface.Entities.Navigationless;
 
-namespace SocialNetwork.DataAccess.EntityFramework.Entities
+namespace SocialNetwork.DataAccess.Interface.Entities
 {
-    public class Message : IEntity
+    public class Message
     {
         public int Id { get; set; }
 
-        [Required]
         public int FromId { get; set; }
-        public virtual User From { get; set; }
-        [Required]
+        public virtual Navigationless.User From { get; set; }
         public int ToId { get; set; }
-        public virtual User To { get; set; }
+        public virtual Navigationless.User To { get; set; }
 
-        [Required]
         public string Body { get; set; }
     }
 }
