@@ -263,9 +263,9 @@
       <Project>{a9ed8220-7646-4839-af97-fe55229029d7}</Project>
       <Name>BL.Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DependencyResolver\DependencyResolver.csproj">
-      <Project>{5856c7c2-d19f-4380-8ea9-2d3c8fb36949}</Project>
-      <Name>DependencyResolver</Name>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{ca9744c9-cff9-4cb4-b73c-34a0a340646d}</Project>
+      <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

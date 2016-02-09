@@ -15,8 +15,8 @@ namespace SocialNetwork.DataAccess.EntityFramework.Mappers
             return new Dal.User()
             {
                 Id = user.Id,
-                Name = user.Name,
-                Email = user.Name,
+                Name = user.Email,
+                Email = user.Email,
                 Password = user.Password
             };
         }
@@ -26,7 +26,6 @@ namespace SocialNetwork.DataAccess.EntityFramework.Mappers
             return new User()
             {
                 Id = user.Id,
-                Name = user.Name,
                 Email = user.Name,
                 Password = user.Password
             };

@@ -49,11 +49,12 @@ namespace SocialNetwork.MvcPresentation.Controllers
         // GET: Profile
         public ActionResult Index()
         {
-            if (Request.IsAuthenticated)
-            {
-                var userName = User.Identity.Name;
-                var 
-            }
+            throw new NotImplementedException();
+            //if (Request.IsAuthenticated)
+            //{
+            //    var userName = User.Identity.Name;
+            //    var 
+            //}
         }
 
         public ActionResult View(int id)

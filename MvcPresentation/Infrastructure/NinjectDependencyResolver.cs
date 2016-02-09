@@ -1,5 +1,5 @@
 ﻿using Ninject;
-using SocialNetwork.DependencyResolver;
+using SocialNetwork.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
