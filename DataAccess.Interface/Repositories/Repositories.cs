@@ -13,6 +13,7 @@ namespace SocialNetwork.DataAccess.Interface.Repositories
 
     public interface IRoleRepository : IRepository<Role>
     {
+        void RemoveFromRole(Role role, int userId);
     }
 
     public interface ICountryRepository : IRepository<Country>

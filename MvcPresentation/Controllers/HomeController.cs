@@ -11,8 +11,6 @@ namespace SocialNetwork.MvcPresentation.Controllers
     {
         public ActionResult Index()
         {
-            DependencyResolver.Current.GetService<IUserService>().Test();
-
             return View();
         }
 

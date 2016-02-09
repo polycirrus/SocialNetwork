@@ -29,7 +29,8 @@ namespace SocialNetwork.Infrastructure
             Bind<ICountryRepository>().To<CountryRepository>();
             Bind<IMessageRepository>().To<MessageRepository>();
 
-            Bind<IUserService>().To<UserService>();
+            //Bind<IUserService>().To<UserService>();
+            Bind<IAccountService>().To<AccountService>().InSingletonScope();
 
             Bind<IMapper>().ToConstant(AutoMapperConfiguration.Mapper);
         }

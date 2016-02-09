@@ -45,7 +45,7 @@ namespace SocialNetwork.DataAccess.EntityFramework.Repositories
             return dataSet.Find(id);
         }
 
-        public void InsertOrUpdate(T model, string user)
+        public void InsertOrUpdate(T model)
         {
             if (model.Id == default(int))
             {

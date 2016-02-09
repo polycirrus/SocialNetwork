@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Ef = SocialNetwork.DataAccess.EntityFramework.Entities;
 using Data = SocialNetwork.DataAccess.Interface.Entities;
+using BLL = SocialNetwork.BL.Interface.Entities;
 
 namespace SocialNetwork.Infrastructure
 {
@@ -18,6 +19,7 @@ namespace SocialNetwork.Infrastructure
         {
             Configuration = new MapperConfiguration((configuration) =>
             {
+                //Entity Framework -> DAL interface
                 configuration.CreateMap<Ef.User, Data.User>();
                 configuration.CreateMap<Ef.Role, Data.Role>();
                 configuration.CreateMap<Ef.Country, Data.Country>();
@@ -28,10 +30,22 @@ namespace SocialNetwork.Infrastructure
                 configuration.CreateMap<Ef.Country, Data.Navigationless.Country>();
                 configuration.CreateMap<Ef.Message, Data.Navigationless.Message>();
 
-                //configuration.CreateMap<Data.User, Ef.User>();
-                //configuration.CreateMap<Data.Role, Ef.Role>();
-                //configuration.CreateMap<Data.Country, Ef.Country>();
-                //configuration.CreateMap<Data.Message, Ef.Message>();
+                //DAL interface -> EF
+                configuration.CreateMap<Data.User, Ef.User>();
+                configuration.CreateMap<Data.Role, Ef.Role>();
+                configuration.CreateMap<Data.Country, Ef.Country>();
+                configuration.CreateMap<Data.Message, Ef.Message>();
+
+                configuration.CreateMap<Data.Navigationless.User, Ef.User>();
+                configuration.CreateMap<Data.Navigationless.Role, Ef.Role>();
+                configuration.CreateMap<Data.Navigationless.Country, Ef.Country>();
+                configuration.CreateMap<Data.Navigationless.Message, Ef.Message>();
+
+                //BLL -> DAL
+                configuration.CreateMap<BLL.Account, Data.User>();
+
+                //DAL -> BLL
+                configuration.CreateMap<Data.User, BLL.Account>();
             });
 
             Mapper = Configuration.CreateMapper();

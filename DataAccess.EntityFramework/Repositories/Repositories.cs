@@ -19,14 +19,6 @@ namespace SocialNetwork.DataAccess.EntityFramework.Repositories
         }
     }
 
-    public class RoleRepository : MappedRepository<Role, Dal.Role>, IRoleRepository
-    {
-        public RoleRepository(DbContext context, IMapper mapper)
-            : base(context, mapper)
-        {
-        }
-    }
-
     public class CountryRepository : MappedRepository<Country, Dal.Country>, ICountryRepository
     {
         public CountryRepository(DbContext context, IMapper mapper)

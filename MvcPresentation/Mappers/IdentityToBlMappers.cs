@@ -9,22 +9,23 @@ namespace SocialNetwork.MvcPresentation.Mappers
 {
     public static class IdentityBlMappers
     {
-        public static User ToBlModel(this IdentityUser identityUser)
+        public static Account ToBlModel(this IdentityUser identityUser)
         {
-            return new User()
+            return new Account()
             {
                 Id = identityUser.Id,
-                Name = identityUser.UserName,
+                Email = identityUser.UserName,
                 Password = identityUser.PasswordHash
             };
         }
 
-        public static IdentityUser ToIdentity(this User blUser)
+        public static IdentityUser ToIdentity(this Account account)
         {
             return new IdentityUser()
             {
-                Id = blUser.Id,
-                UserName = blUser.Name,
+                Id = account.Id,
+                UserName = account.Email,
+                PasswordHash = account.Password
             };
         }
     }

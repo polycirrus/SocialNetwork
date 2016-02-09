@@ -36,30 +36,31 @@ namespace SocialNetwork.DataAccess.EntityFramework
         }
     }
 
-    public class Initializer : DropCreateDatabaseAlways<Context>
+    public class Initializer : DropCreateDatabaseIfModelChanges<Context>
     {
         protected override void Seed(Context context)
         {
-            var roles = new List<Role>()
-            {
-                new Role() { Name = "User" }
-            };
+            //var roles = new List<Role>()
+            //{
+            //    new Role() { Name = "User" }
+            //};
+            context.Roles.Add(new Role() { Name = "User" });
 
-            context.Users.Add(new User()
-            {
-                Email = "abc@abc.com",
-                Password = "qwertyhashed",
-                Roles = roles,
-                Friends = new List<User>()
-                {
-                    new User()
-                    {
-                        Email = "abcsfriend@abc.com",
-                        Password = "ilikedogshashed",
-                        Roles = roles
-                    }
-                }
-            });
+            //context.Users.Add(new User()
+            //{
+            //    Email = "abc@abc.com",
+            //    Password = "qwertyhashed",
+            //    Roles = roles,
+            //    Friends = new List<User>()
+            //    {
+            //        new User()
+            //        {
+            //            Email = "abcsfriend@abc.com",
+            //            Password = "ilikedogshashed",
+            //            Roles = roles
+            //        }
+            //    }
+            //});
             context.SaveChanges();
         }
     }

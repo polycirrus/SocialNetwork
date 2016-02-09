@@ -14,9 +14,9 @@ namespace SocialNetwork.DataAccess.EntityFramework.Repositories
     public abstract class MappedRepository<TSource, TDestination>
         where TSource : class, IEntity
     {
-        private DbContext context;
-        private DbSet<TSource> dataSet;
-        private IMapper mapper;
+        protected DbContext context;
+        protected DbSet<TSource> dataSet;
+        protected IMapper mapper;
         
         public MappedRepository(DbContext context, IMapper mapper)
         {
@@ -52,7 +52,7 @@ namespace SocialNetwork.DataAccess.EntityFramework.Repositories
             return default(TDestination);
         }
 
-        public void InsertOrUpdate(TDestination model, string user)
+        public void InsertOrUpdate(TDestination model)
         {
             var entity = mapper.Map<TDestination, TSource>(model);
 
@@ -60,10 +60,14 @@ namespace SocialNetwork.DataAccess.EntityFramework.Repositories
             {
                 // New entity
                 dataSet.Add(entity);
-                return;
             }
-            // Existing entity
-            context.Entry(entity).State = EntityState.Modified;
+            else
+            {
+                // Existing entity
+                context.Entry(entity).State = EntityState.Modified;
+            }
+
+            Save();
         }
 
         public void Save()

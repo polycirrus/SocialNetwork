@@ -17,7 +17,7 @@ namespace SocialNetwork.DataAccess.Interface.Repositories
         IQueryable<T> All { get; }
         IQueryable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties);
         T Find(int id);
-        void InsertOrUpdate(T model, string user);
+        void InsertOrUpdate(T entity);
         void Delete(int id);
         void Save();
     }

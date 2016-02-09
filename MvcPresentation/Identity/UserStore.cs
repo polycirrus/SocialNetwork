@@ -14,7 +14,8 @@ namespace SocialNetwork.MvcPresentation.Identity
         IUserPasswordStore<IdentityUser, int>, IUserEmailStore<IdentityUser, int>, 
         IUserLockoutStore<IdentityUser, int>, IUserTwoFactorStore<IdentityUser, int>
     {
-        private IUserService userService => System.Web.Mvc.DependencyResolver.Current.GetService<IUserService>();
+        private IUserService userService => /*System.Web.Mvc.DependencyResolver.Current.GetService<IUserService>()*/null;
+        private IAccountService accountService => DependencyResolver.Current.GetService<IAccountService>();
         
         public void Dispose()
         {
@@ -24,37 +25,40 @@ namespace SocialNetwork.MvcPresentation.Identity
 
         public Task CreateAsync(IdentityUser user)
         {
-            userService.Create(user.ToBlModel());
-            var createdUser = userService.FindByEmail(user.UserName);
-            user.Id = createdUser.Id;
+            //userService.Create(user.ToBlModel());
+            //var createdUser = userService.FindByEmail(user.UserName);
+            //user.Id = createdUser.Id;
+
+            accountService.Create(user.ToBlModel());
+            var account = accountService.FindByEmail(user.UserName);
+            user.Id = account.Id;
 
             return Task.FromResult(true);
         }
 
         public Task DeleteAsync(IdentityUser user)
         {
-            userService.Delete(user.ToBlModel());
+            //userService.Delete(user.ToBlModel());
+
+            accountService.Delete(user.ToBlModel());
 
             return Task.FromResult(true);
         }
 
         public Task<IdentityUser> FindByIdAsync(int userId)
         {
-            var user = userService.FindById(userId);
+            //var user = userService.FindById(userId);
+            var user = accountService.FindById(userId);
 
             return Task.FromResult(user?.ToIdentity());
         }
 
         public Task<IdentityUser> FindByNameAsync(string userName)
         {
-            var user = userService.FindByEmail(userName);
+            //var user = userService.FindByEmail(userName);
+            var user = accountService.FindByEmail(userName);
 
             return Task.FromResult(user?.ToIdentity());
-        }
-
-        public Task UpdateAsync(IdentityUser user)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -63,14 +67,10 @@ namespace SocialNetwork.MvcPresentation.Identity
 
         public Task<string> GetPasswordHashAsync(IdentityUser user)
         {
-            var blUser = userService.FindById(user.Id);
+            //var blUser = userService.FindById(user.Id);
+            var blUser = accountService.FindById(user.Id);
 
             return Task.FromResult(blUser.Password);
-        }
-
-        public Task<bool> HasPasswordAsync(IdentityUser user)
-        {
-            return Task.FromResult(true);
         }
 
         //called by UserManager whenever new user with password is created,
@@ -92,22 +92,70 @@ namespace SocialNetwork.MvcPresentation.Identity
 
         public Task AddToRoleAsync(IdentityUser user, string roleName)
         {
+            accountService.AddToRole(user.ToBlModel(), roleName);
+
             return Task.FromResult(true);
         }
 
         public Task<IList<string>> GetRolesAsync(IdentityUser user)
         {
-            return Task.FromResult<IList<string>>(new List<string>());
+            var roles = accountService.GetRoles(user.ToBlModel());
+
+            return Task.FromResult(roles);
         }
 
         public Task<bool> IsInRoleAsync(IdentityUser user, string roleName)
         {
-            return Task.FromResult(false);
+            var result = accountService.IsInRole(user.ToBlModel(), roleName);
+
+            return Task.FromResult(result);
         }
 
         public Task RemoveFromRoleAsync(IdentityUser user, string roleName)
         {
+            accountService.RemoveFromRole(user.ToBlModel(), roleName);
+
             return Task.FromResult(true);
+        }
+
+        #endregion
+
+        #region Email
+
+        public Task<IdentityUser> FindByEmailAsync(string email)
+        {
+            //var user = userService.FindByEmail(email);
+            var user = accountService.FindByEmail(email);
+
+            return Task.FromResult(user?.ToIdentity());
+        }
+
+        public Task<string> GetEmailAsync(IdentityUser user)
+        {
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task SetEmailAsync(IdentityUser user, string email)
+        {
+            accountService.SetEmail(user.ToBlModel(), email);
+
+            return Task.FromResult(true);
+        }
+
+        #endregion
+
+        #region Stubs
+
+        #region TwoFactor
+
+        public Task SetTwoFactorEnabledAsync(IdentityUser user, bool enabled)
+        {
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> GetTwoFactorEnabledAsync(IdentityUser user)
+        {
+            return Task.FromResult(false);
         }
 
         #endregion
@@ -153,24 +201,7 @@ namespace SocialNetwork.MvcPresentation.Identity
 
         #region Email
 
-        public Task<IdentityUser> FindByEmailAsync(string email)
-        {
-            var user = userService.FindByEmail(email);
-
-            return Task.FromResult(user?.ToIdentity());
-        }
-
-        public Task<string> GetEmailAsync(IdentityUser user)
-        {
-            return Task.FromResult(user.UserName);
-        }
-
         public Task<bool> GetEmailConfirmedAsync(IdentityUser user)
-        {
-            return Task.FromResult(true);
-        }
-
-        public Task SetEmailAsync(IdentityUser user, string email)
         {
             return Task.FromResult(true);
         }
@@ -182,17 +213,23 @@ namespace SocialNetwork.MvcPresentation.Identity
 
         #endregion
 
-        #region TwoFactor
+        #region Password
 
-        public Task SetTwoFactorEnabledAsync(IdentityUser user, bool enabled)
+        public Task<bool> HasPasswordAsync(IdentityUser user)
         {
             return Task.FromResult(true);
         }
 
-        public Task<bool> GetTwoFactorEnabledAsync(IdentityUser user)
+        #endregion
+
+        #region User
+
+        public Task UpdateAsync(IdentityUser user)
         {
-            return Task.FromResult(false);
+            throw new NotImplementedException();
         }
+
+        #endregion
 
         #endregion
     }
