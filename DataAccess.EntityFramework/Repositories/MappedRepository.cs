@@ -64,6 +64,8 @@ namespace SocialNetwork.DataAccess.EntityFramework.Repositories
             else
             {
                 // Existing entity
+                var existing = dataSet.Find(entity.Id);
+                context.Entry(existing).State = EntityState.Detached;
                 context.Entry(entity).State = EntityState.Modified;
             }
 

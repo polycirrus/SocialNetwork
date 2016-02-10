@@ -31,6 +31,7 @@ namespace SocialNetwork.Infrastructure
 
             //Bind<IUserService>().To<UserService>();
             Bind<IAccountService>().To<AccountService>().InSingletonScope();
+            Bind<IProfileService>().To<ProfileService>().InSingletonScope();
 
             Bind<IMapper>().ToConstant(AutoMapperConfiguration.Mapper);
         }

@@ -1,0 +1,43 @@
+﻿@model SocialNetwork.MvcPresentation.Models.ChangeEmailViewModel
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <section id="manageAccount">
+        <h2>Account settings</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                @Html.ActionLink("Change my email address", "ChangeEmail")
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                @Html.ActionLink("Change my password", "ChangePassword")
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <a data-toggle="modal" data-target="#myModal">
+                    Delete my account
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="myModal" class="modal " tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-header">Confirm account deletion</div>
+        <div class="modal-body">Are you sure you want to delete this account? This action cannot be undone.</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("DeleteAccount")'">Delete</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

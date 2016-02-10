@@ -41,11 +41,22 @@ namespace SocialNetwork.Infrastructure
                 configuration.CreateMap<Data.Navigationless.Country, Ef.Country>();
                 configuration.CreateMap<Data.Navigationless.Message, Ef.Message>();
 
+                //DAL
+                configuration.CreateMap<Data.Navigationless.Country, Data.Country>();
+
                 //BLL -> DAL
                 configuration.CreateMap<BLL.Account, Data.User>();
+                configuration.CreateMap<BLL.Profile, Data.User>();
+                configuration.CreateMap<BLL.Country, Data.Country>();
+                configuration.CreateMap<BLL.Country, Data.Navigationless.Country>();
 
                 //DAL -> BLL
                 configuration.CreateMap<Data.User, BLL.Account>();
+                configuration.CreateMap<Data.User, BLL.Profile>();
+                configuration.CreateMap<Data.Navigationless.User, BLL.Profile>();
+                configuration.CreateMap<Data.Country, BLL.Country>();
+                configuration.CreateMap<Data.Navigationless.Country, BLL.Country>();
+                configuration.CreateMap<Data.FriendStatus, BLL.FriendStatus>();
             });
 
             Mapper = Configuration.CreateMapper();

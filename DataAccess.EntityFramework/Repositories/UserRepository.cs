@@ -13,58 +13,72 @@ using AutoMapper;
 
 namespace SocialNetwork.DataAccess.EntityFramework.Repositories
 {
-    //public class UserRepository : IUserRepository
-    //{
-    //    private DbContext context;
+    public class UserRepository : MappedRepository<User, Dal.User>, IUserRepository
+    {
+        public UserRepository(DbContext context, IMapper mapper)
+            : base(context, mapper)
+        {
+        }
 
-    //    public UserRepository(DbContext context)
-    //    {
-    //        this.context = context;
-    //    }
+        public void AddToFriends(int userId, int friendId)
+        {
+            var user = dataSet.Find(userId);
+            if (user == null)
+                throw new ArgumentException("User with the specified user Id does not exist.");
+            var friend = dataSet.Find(friendId);
+            if (friend == null)
+                throw new ArgumentException("User with the specified friend Id does not exist.");
 
-    //    //public void Add(Dal.User entity)
-    //    //{
-    //    //    context.Set<User>().Add(entity.ToEfModel());
-    //    //    context.SaveChanges();
-    //    //}
+            if (user.Friends == null)
+                user.Friends = new List<User>();
+            user.Friends.Add(friend);
+            Save();
+        }
 
-    //    public void AddOrUpdate(Dal.User entity)
-    //    {
-    //        var users = context.Set<User>();
+        public ICollection<Dal.User> GetAllFriends(int userId)
+        {
+            var user = dataSet.Find(userId);
+            if (user == null)
+                throw new ArgumentException("User with the specified user Id does not exist.");
 
-    //        //if (users.Any(user => user.Email == entity.Email))
-    //        //    Update(entity);
-    //        //else
-    //        //    Add(entity);
-    //        users.AddOrUpdate(user => user.Email);
-    //    }
+            var friends = user.Friends.Where(friend => friend.Friends.Contains(user));
 
-    //    //public void Delete(Dal.User entity)
-    //    //{
-    //    //    context.Set<User>().Remove(entity.ToEfModel());
-    //    //}
+            return friends.Select(friend => mapper.Map<User, Dal.User>(friend)).ToList();
+        }
 
-    //    public Dal.User GetByEmail(string email)
-    //    {
-    //        return context.Set<User>()
-    //            .SingleOrDefault(user => user.Email == email)
-    //            ?.ToDalModel();
-    //    }
+        public Dal.FriendStatus GetFriendStatus(int userId, int friendId)
+        {
+            var user = dataSet.Find(userId);
+            if (user == null)
+                throw new ArgumentException("User with the specified user Id does not exist.");
+            var friend = dataSet.Find(friendId);
+            if (friend == null)
+                throw new ArgumentException("User with the specified friend Id does not exist.");
 
-    //    //public Dal.User GetById(int id)
-    //    //{
-    //    //    return context.Set<User>()
-    //    //        .SingleOrDefault(user => user.Id == id)
-    //    //        ?.ToDalModel();
-    //    //}
+            bool direct = user.Friends.Contains(friend);
+            bool reverse = friend.Friends.Contains(user);
 
-    //    //public void Update(Dal.User entity)
-    //    //{
-    //    //    context.Entry(entity.ToEfModel()).State = EntityState.Modified;
-    //    //}
+            if (direct && reverse)
+                return Dal.FriendStatus.Friends;
+            else if (direct)
+                return Dal.FriendStatus.SentRequest;
+            else if (reverse)
+                return Dal.FriendStatus.ReceivedRequest;
+            else
+                return Dal.FriendStatus.None;
+        }
 
+        public void RemoveFromFriends(int userId, int friendId)
+        {
+            var user = dataSet.Find(userId);
+            if (user == null)
+                throw new ArgumentException("User with the specified user Id does not exist.");
+            var friend = dataSet.Find(friendId);
+            if (friend == null)
+                throw new ArgumentException("User with the specified friend Id does not exist.");
 
-    //}
-
-    
+            user.Friends.Remove(friend);
+            Save();
+        }
+    }
 }

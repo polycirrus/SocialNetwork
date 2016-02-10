@@ -11,6 +11,9 @@ namespace SocialNetwork.MvcPresentation.Controllers
     {
         public ActionResult Index()
         {
+            var profileService = DependencyResolver.Current.GetService<IProfileService>();
+            profileService.GetAllCountries();
+
             return View();
         }
 

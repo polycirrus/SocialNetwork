@@ -19,11 +19,6 @@ namespace SocialNetwork.MvcPresentation.Identity
             throw new NotImplementedException();
         }
 
-        public void Dispose()
-        {
-            //throw new NotImplementedException();
-        }
-
         public Task<IdentityRole> FindByIdAsync(int roleId)
         {
             throw new NotImplementedException();
@@ -37,6 +32,10 @@ namespace SocialNetwork.MvcPresentation.Identity
         public Task UpdateAsync(IdentityRole role)
         {
             throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

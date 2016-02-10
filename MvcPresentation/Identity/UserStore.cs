@@ -14,7 +14,6 @@ namespace SocialNetwork.MvcPresentation.Identity
         IUserPasswordStore<IdentityUser, int>, IUserEmailStore<IdentityUser, int>, 
         IUserLockoutStore<IdentityUser, int>, IUserTwoFactorStore<IdentityUser, int>
     {
-        private IUserService userService => /*System.Web.Mvc.DependencyResolver.Current.GetService<IUserService>()*/null;
         private IAccountService accountService => DependencyResolver.Current.GetService<IAccountService>();
         
         public void Dispose()
@@ -82,6 +81,11 @@ namespace SocialNetwork.MvcPresentation.Identity
             //userService.CreateOrUpdate(blUserModel);
 
             user.PasswordHash = passwordHash;
+            if (user.Id != default(int))
+            {
+                //not a new user
+                accountService.SetPassword(user.Id, passwordHash);
+            }
 
             return Task.FromResult(true);
         }
@@ -138,6 +142,7 @@ namespace SocialNetwork.MvcPresentation.Identity
         public Task SetEmailAsync(IdentityUser user, string email)
         {
             accountService.SetEmail(user.ToBlModel(), email);
+            user.UserName = email;
 
             return Task.FromResult(true);
         }
@@ -226,7 +231,7 @@ namespace SocialNetwork.MvcPresentation.Identity
 
         public Task UpdateAsync(IdentityUser user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
         #endregion

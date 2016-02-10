@@ -40,27 +40,48 @@ namespace SocialNetwork.DataAccess.EntityFramework
     {
         protected override void Seed(Context context)
         {
-            //var roles = new List<Role>()
-            //{
-            //    new Role() { Name = "User" }
-            //};
-            context.Roles.Add(new Role() { Name = "User" });
+            var userRole = new Role() { Name = "User" };
+            context.Roles.Add(userRole);
 
-            //context.Users.Add(new User()
-            //{
-            //    Email = "abc@abc.com",
-            //    Password = "qwertyhashed",
-            //    Roles = roles,
-            //    Friends = new List<User>()
-            //    {
-            //        new User()
-            //        {
-            //            Email = "abcsfriend@abc.com",
-            //            Password = "ilikedogshashed",
-            //            Roles = roles
-            //        }
-            //    }
-            //});
+            var country = new Country() { Name = "Belarus" };
+            context.Countries.Add(country);
+
+            var users = new List<User>()
+            {
+                new User()
+                {
+                    Email = "john.smith@abc.com",
+                    Password = "jsmithhashed",
+                    Roles = new List<Role>() { userRole },
+                    FirstName = "John",
+                    LastName = "Smith",
+                    Bio = "A regular guy.",
+                    Country = country
+                },
+                new User()
+                {
+                    Email = "john.cena@abc.com",
+                    Password = "jcenahashed",
+                    Roles = new List<Role>() { userRole },
+                    FirstName = "John",
+                    LastName = "Cena",
+                    Bio = "Too tootoo tooooooo...",
+                    Country = country
+                },
+                new User()
+                {
+                    Email = "jack.doe@abc.com",
+                    Password = "jdoehashed",
+                    Roles = new List<Role>() { userRole },
+                    FirstName = "Jack",
+                    LastName = "Doe",
+                    Bio = "My name's not John.",
+                    Country = country
+                }
+            };
+            foreach (var user in users)
+                context.Users.Add(user);
+
             context.SaveChanges();
         }
     }

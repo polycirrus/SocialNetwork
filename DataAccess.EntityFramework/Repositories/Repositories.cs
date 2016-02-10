@@ -11,14 +11,6 @@ using SocialNetwork.DataAccess.EntityFramework.Entities;
 
 namespace SocialNetwork.DataAccess.EntityFramework.Repositories
 {
-    public class UserRepository : MappedRepository<User, Dal.User>, IUserRepository
-    {
-        public UserRepository(DbContext context, IMapper mapper)
-            : base(context, mapper)
-        {
-        }
-    }
-
     public class CountryRepository : MappedRepository<Country, Dal.Country>, ICountryRepository
     {
         public CountryRepository(DbContext context, IMapper mapper)
