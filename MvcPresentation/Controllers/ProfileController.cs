@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using SocialNetwork.BL.Interface.Services;
+using SocialNetwork.MvcPresentation.Mappers;
+using SocialNetwork.MvcPresentation.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,30 +11,18 @@ using System.Web.Mvc;
 
 namespace SocialNetwork.MvcPresentation.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-
         public ProfileController()
         {
-        }
-
-        public ProfileController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
         }
 
         public ApplicationSignInManager SignInManager
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
+                return HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
         }
 
@@ -38,28 +30,100 @@ namespace SocialNetwork.MvcPresentation.Controllers
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
+                return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
 
-        // GET: Profile
-        public ActionResult Index()
+        public IProfileService ProfileService => DependencyResolver.Current.GetService<IProfileService>();
+
+        [HttpGet]
+        public ActionResult Edit(int id)
         {
-            throw new NotImplementedException();
-            //if (Request.IsAuthenticated)
-            //{
-            //    var userName = User.Identity.Name;
-            //    var 
-            //}
+            if (!(User.Identity.GetUserId<int>() == id || User.IsInRole("Admin")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var service = ProfileService;
+            
+            var profile = service.GetProfile(id);
+            if (profile == null)
+                return RedirectToAction("Index", "Home");
+
+            var profileViewModel = profile.ToViewModel();
+
+            var countries = service.GetAllCountries().Select(blCountry => blCountry.ToViewModel()).ToList();
+            var countryList = countries.Select(country
+                => new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                });
+            ViewBag.CountryList = countryList;
+
+            return View(profileViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ProfileViewModel model)
+        {
+            if (!(User.Identity.GetUserId<int>() == model.Id || User.IsInRole("Admin")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var service = ProfileService;
+
+            if (ModelState.IsValid)
+            {
+                service.UpdateProfile(model.ToBlModel());
+                return RedirectToAction("View", new { id = model.Id });
+            }
+
+            return View(model);
         }
 
         public ActionResult View(int id)
         {
-            return Content("");
+            var service = ProfileService;
+
+            var profile = service.GetProfile(id);
+            if (profile == null)
+                return RedirectToAction("Index", "Home");
+
+            var selfId = User.Identity.GetUserId<int>();
+
+            var friendStatus = service.GetFriendStatus(selfId, id);
+
+            bool editOptions = selfId == id || User.IsInRole("Admin");
+            bool self = selfId == id;
+
+            ViewBag.FriendStatus = friendStatus;
+            ViewBag.EditOptions = editOptions;
+            ViewBag.Self = self;
+
+            return View(profile.ToViewModel());
+        }
+
+        public ActionResult AddFriend(int id)
+        {
+            var selfId = User.Identity.GetUserId<int>();
+
+            var service = ProfileService;
+            service.AddToFriends(selfId, id);
+
+            return RedirectToAction("View", new { id = id });
+        }
+
+        public ActionResult RemoveFriend(int id)
+        {
+            var selfId = User.Identity.GetUserId<int>();
+
+            var service = ProfileService;
+            service.RemoveFromFriends(selfId, id);
+
+            return RedirectToAction("View", new { id = id });
         }
     }
 }

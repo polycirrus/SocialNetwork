@@ -1,0 +1,48 @@
+﻿@model SocialNetwork.MvcPresentation.Models.ProfileViewModel
+@using SocialNetwork.BL.Interface.Entities;
+
+<div class="jumbotron">
+    @Html.Partial("ProfilePartial", Model)
+</div>
+<hr />
+
+<div class="row">
+    @{ 
+        var friendState = (FriendStatus?)ViewBag.FriendStatus;
+        if (!ViewBag.Self)
+        {
+            switch (friendState)
+            {
+                case FriendStatus.None:
+                    @Html.ActionLink("Add friend", "AddFriend", new { id = Model.Id });
+                    break;
+                case FriendStatus.SentRequest:
+                    @Html.ActionLink("Cancel friend request", "RemoveFriend", new { id = Model.Id });
+                    break;
+                case FriendStatus.ReceivedRequest:
+                    @Html.ActionLink("Confirm friend request", "AddFriend", new { id = Model.Id });
+                    break;
+                case FriendStatus.Friends:
+                    @Html.ActionLink("Unfriend", "RemoveFriend", new { id = Model.Id });
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+</div>
+
+@{ 
+    if (ViewBag.EditOptions)
+    {
+        <div class="row">
+            @Html.ActionLink("Edit profile information", "Edit", new { id = Model.Id })
+        </div>
+    }
+    if (ViewBag.Self)
+    {
+        <div class="row">
+            @Html.ActionLink("Edit account settings", "Edit", "Account")
+        </div>
+    }
+}

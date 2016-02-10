@@ -1,0 +1,41 @@
+﻿@using SocialNetwork.MvcPresentation.Helpers;
+
+@model SocialNetwork.MvcPresentation.Models.ProfileViewModel
+
+<h4>
+    @Html.ActionLink(Model.FullName, "View", "Profile", new { id = Model.Id }, null)
+</h4>
+@if (Model.Bio != null)
+{
+    <div class="row">
+        <div class="col-md-3">
+            <strong>@Html.DisplayNameFor(model => model.Bio)</strong>
+        </div>
+        <div class="col-md-9">
+            @Html.DisplayFor(model => model.Bio)
+        </div>
+    </div>
+}
+@if (Model.DateOfBirth != null)
+{
+    <div class="row">
+        <div class="col-md-3">
+            <strong>@Html.DisplayNameFor(model => model.DateOfBirth)</strong>
+        </div>
+        <div class="col-md-9">
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </div>
+    </div>
+}
+@if (Model.CountryId != null)
+{
+    <div class="row">
+        <div class="col-md-3">
+            <strong>@Html.DisplayNameFor(model => model.CountryId)</strong>
+        </div>
+        <div class="col-md-9">
+            @ProfileHelpers.GetCountryName(Model.CountryId.Value)
+        </div>
+    </div>
+}
+

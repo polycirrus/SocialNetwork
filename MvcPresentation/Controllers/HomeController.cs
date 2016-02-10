@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SocialNetwork.BL.Interface.Services;
+using SocialNetwork.MvcPresentation.Mappers;
+using Microsoft.AspNet.Identity;
 
 namespace SocialNetwork.MvcPresentation.Controllers
 {
@@ -11,10 +13,10 @@ namespace SocialNetwork.MvcPresentation.Controllers
     {
         public ActionResult Index()
         {
-            var profileService = DependencyResolver.Current.GetService<IProfileService>();
-            profileService.GetAllCountries();
-
-            return View();
+            if (Request.IsAuthenticated)
+                return RedirectToAction("View", "Profile", new { id = User.Identity.GetUserId<int>() });
+            else
+                return RedirectToAction("Login", "Account");
         }
 
         public ActionResult About()

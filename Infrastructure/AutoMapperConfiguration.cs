@@ -43,6 +43,7 @@ namespace SocialNetwork.Infrastructure
 
                 //DAL
                 configuration.CreateMap<Data.Navigationless.Country, Data.Country>();
+                configuration.CreateMap<Data.Country, Data.Navigationless.Country>();
 
                 //BLL -> DAL
                 configuration.CreateMap<BLL.Account, Data.User>();
